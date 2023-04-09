@@ -1,0 +1,48 @@
+<html>
+  <body>
+    <div id="container">
+      <form id="todo-form">
+        <div>
+          <label>Title</label>
+          <input type="text" id="todo-title" />
+        </div>
+        <div>
+          <label>Completed</label>
+          <input type="checkbox" id="todo-completed" />
+        </div>
+
+        <button type="submit" id="submit-todo">Submit</button>
+      </form>
+    </div>
+    <script>
+      const todoUrl = 'https://jsonplaceholder.typicode.com/posts';
+      const todoForm = document.getElementById('todo-form');
+      const todoTitle = document.getElementById('todo-title');
+      const todoCompleted = document.getElementById('todo-completed');
+
+      todoForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const todo = {
+          title: todoTitle.value,
+          completed: todoCompleted.checked,
+        };
+
+        try {
+          const response = await fetch(todoUrl, {
+            method: 'POST',
+            body: JSON.stringify(todo),
+            headers: {
+              'Content-type': 'application/json; charset=UTF-8',
+            },
+          });
+
+          const data = await response.json();
+          console.log(data);
+        } catch (error) {
+          console.error('Error creating todo:', error);
+        }
+      });
+    </script>
+  </body>
+</html>
